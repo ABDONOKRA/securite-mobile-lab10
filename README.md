@@ -43,6 +43,36 @@ frida-ps -Uai         # liste apps (i = include icons/pkg info)
   <img width="893" height="432" alt="image" src="https://github.com/user-attachments/assets/2d61c569-4bb7-486f-819c-d2d3d0222fb2" />
 
 # Étape 5 — Injection minimale pour valider  
-<img width="704" height="250" alt="image" src="https://github.com/user-attachments/assets/3301c36c-9169-45c6-afa1-4d0b1786726d" />
+<img width="704" height="250" alt="image" src="https://github.com/user-attachments/assets/3301c36c-9169-45c6-afa1-4d0b1786726d" />      
+
+Java.perform(function () {
+  console.log("[+] Frida Java.perform OK");
+});  
+
+Java.perform(function() { ... })
+C'est la fonction principale de Frida pour interagir avec Android.
+
+Elle dit à Frida : "attends que la VM Java (Dalvik/ART) soit prête, puis exécute ce code"
+Tout code qui manipule des classes Java doit être à l'intérieur de Java.perform
+Sans ça, tu aurais des erreurs car la VM n'est pas encore initialisée  
+# frida -U -f com.Gestionetudiant.app -l hello.js
+<img width="912" height="465" alt="image" src="https://github.com/user-attachments/assets/a8707030-c54a-4272-871e-fccd9bd5375b" />  
+<img width="750" height="290" alt="image" src="https://github.com/user-attachments/assets/1cf1044b-b5a6-4d58-a6aa-aeb7fe118576" />    
+
+console.log("[+] Script chargé");
+
+Interceptor.attach(Module.getExportByName(null, "recv"), {
+  onEnter(args) {
+    console.log("[+] recv appelée");
+  }
+});
+
+  Ce script :
+affiche un message dès son chargement ;
+recherche l’adresse de la fonction native recv ;
+intercepte chaque appel à cette fonction ;
+affiche un message lorsqu’une réception de données réseau est détectée.
+<img width="944" height="477" alt="image" src="https://github.com/user-attachments/assets/f833027a-2e6e-4f1a-8d8f-3bf4b9c3e52b" />
+
 
 
