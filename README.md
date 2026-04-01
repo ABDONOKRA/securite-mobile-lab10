@@ -275,9 +275,77 @@ préparer une analyse plus poussée des communications sécurisées.
 <img width="1170" height="468" alt="image" src="https://github.com/user-attachments/assets/db2fb681-3374-4758-8219-6a7ac9d1299f" />
 # 7.4 Installer un hook sur send et recv
 
+Créer un fichier hook_network.js :
+<img width="1070" height="760" alt="image" src="https://github.com/user-attachments/assets/df0d0873-383d-4891-aef7-03e6e3311a8e" />
+<img width="1084" height="441" alt="image" src="https://github.com/user-attachments/assets/4bb53b1d-0cbf-432b-afb5-c12da6a19f81" />
+frida -U -n "app1" -l hook_network.js
+Rôle :
+Ce script permet d’observer l’envoi et la réception de données dans le processus.
+Intérêt sécurité :
+détecter l’existence d’une activité réseau native ;
+relier les opérations réseau à certaines actions dans l’application ;
+mieux comprendre le comportement de communication du programme.
+# 7.5 Observer les accès au système de fichiers
+Créer un fichier hook_file.js :
+<img width="1132" height="672" alt="image" src="https://github.com/user-attachments/assets/9ab9ebdc-ac1e-4573-8423-5a0315db2d66" />  
+<img width="1132" height="948" alt="image" src="https://github.com/user-attachments/assets/c5adae14-2ca9-4d9e-abb8-8aa58543da1c" />
 
+frida -U -n "Gestionetudiant" -l hook_file.js
+Rôle :
+Ce script permet d’observer les ouvertures de fichiers et certaines lectures effectuées par l’application.
+Intérêt sécurité :
+repérer l’accès à des fichiers internes ;
+identifier la lecture de données locales, de préférences ou de ressources sensibles ;
+relier le comportement natif à des mécanismes de stockage.
 
+# 7.6 Vérifier la disponibilité du runtime Java
+Commande :
+Java.available
+Rôle :
+Cette commande indique si le processus dispose d’un environnement Java accessible par Frida.
+Intérêt sécurité :
+déterminer s’il est possible d’étendre l’analyse au niveau Java ;
+préparer l’exploration des classes liées à l’authentification, au stockage ou au réseau.  
 
+<img width="682" height="129" alt="image" src="https://github.com/user-attachments/assets/a9609b52-ac54-4f68-905b-31dd5dfe62b2" />
+
+# 7.7 Rechercher des classes Java liées au stockage ou à la sécurité  
+Java.perform(function () {
+  Java.enumerateLoadedClasses({
+    onMatch: function (name) {
+      if (
+        name.toLowerCase().indexOf("security") !== -1 ||
+        name.toLowerCase().indexOf("crypto") !== -1 ||
+        name.toLowerCase().indexOf("prefs") !== -1 ||
+        name.toLowerCase().indexOf("sqlite") !== -1 ||
+        name.toLowerCase().indexOf("storage") !== -1
+      ) {
+        console.log(name);
+      }
+    },
+    onComplete: function () {
+      console.log("Fin de l'énumération");
+    }
+  });
+});  
+Rôle :
+Cette commande aide à repérer des classes Java dont le nom suggère un lien avec la sécurité, la cryptographie ou le stockage.
+Intérêt sécurité :
+localiser des composants applicatifs sensibles ;
+préparer le hooking de méthodes Java ;
+mieux cibler l’analyse dynamique.
+<img width="905" height="874" alt="image" src="https://github.com/user-attachments/assets/09548f77-d07b-4fa3-b366-a1ccf3b9dc96" />  
+<img width="905" height="874" alt="image" src="https://github.com/user-attachments/assets/27186268-2f60-4cc7-b2e3-92d1e99831ca" />  
+<img width="905" height="874" alt="image" src="https://github.com/user-attachments/assets/97e7600a-f0e9-4d93-828b-4b8112c43bae" />
+# 7.8 Vérifier les zones mémoire exécutables
+Commande :
+Process.enumerateRanges('r-x')
+Rôle :
+Cette commande liste les plages mémoire marquées comme lisibles et exécutables.
+Intérêt sécurité :
+observer l’organisation mémoire du processus ;
+identifier les régions susceptibles de contenir du code natif ;
+compléter la compréhension du chargement des bibliothèques.
 
 
 
