@@ -35,5 +35,12 @@ adb shell ps | grep frida
 Si grep n’est pas disponible dans le shell Android, il est possible d’utiliser simplement :
 adb shell ps  
 <img width="801" height="812" alt="image" src="https://github.com/user-attachments/assets/c9958de6-8db2-48f0-a737-ff928a985911" />
+# Étape 4 — Test de connexion depuis le PC  
 
+frida-ps -U           # liste des processus USB
+frida-ps -Uai         # liste apps (i = include icons/pkg info)  
+
+  <img width="893" height="432" alt="image" src="https://github.com/user-attachments/assets/2d61c569-4bb7-486f-819c-d2d3d0222fb2" />
+
+# Étape 5 — Injection minimale pour valider
 
