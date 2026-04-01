@@ -42,5 +42,7 @@ frida-ps -Uai         # liste apps (i = include icons/pkg info)
 
   <img width="893" height="432" alt="image" src="https://github.com/user-attachments/assets/2d61c569-4bb7-486f-819c-d2d3d0222fb2" />
 
-# Étape 5 — Injection minimale pour valider
+# Étape 5 — Injection minimale pour valider  
+<img width="704" height="250" alt="image" src="https://github.com/user-attachments/assets/3301c36c-9169-45c6-afa1-4d0b1786726d" />
+
 
