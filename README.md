@@ -244,3 +244,47 @@ Process.id
 Process.platform
 Affiche l’identifiant et la plateforme du processus.
 
+
+# Étape 7 - Observer les bibliothèques de chiffrement, le stockage local et les appels réseau sensibles
+# 7.1 Repérer les bibliothèques liées au chiffrement
+
+Dans la console Frida, exécuter la commande suivante :
+Process.enumerateModules().filter(m =>
+  m.name.indexOf("ssl") !== -1 ||
+  m.name.indexOf("crypto") !== -1 ||
+  m.name.indexOf("boring") !== -1
+)
+Rôle :
+Cette commande filtre les modules chargés dans le processus afin d’afficher les bibliothèques potentiellement liées au chiffrement ou au protocole TLS.
+Intérêt sécurité :
+identifier si l’application utilise des composants natifs liés à SSL/TLS ;
+repérer l’usage de bibliothèques cryptographiques ;
+préparer une analyse plus poussée des communications sécurisées.
+
+
+<img width="944" height="850" alt="image" src="https://github.com/user-attachments/assets/29514d71-c903-419d-8ff1-de783e043504" />
+# 7.2 Vérifier la présence d’une fonction réseau sensible
+
+<img width="1190" height="130" alt="image" src="https://github.com/user-attachments/assets/9f46bfce-00a8-4e0c-bb75-0b532bf86754" />
+
+# 7.3 Installer un hook sur connect
+## Créer un fichier hook_connect.js :
+
+
+<img width="896" height="478" alt="image" src="https://github.com/user-attachments/assets/e918f9df-fa13-49f0-a443-4513989b4660" />
+<img width="1170" height="468" alt="image" src="https://github.com/user-attachments/assets/db2fb681-3374-4758-8219-6a7ac9d1299f" />
+# 7.4 Installer un hook sur send et recv
+
+
+
+
+
+
+
+
+
+
+
+
+
+
